@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Last Player Standing</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+    }
+
+    body {
+        background: linear-gradient(135deg, #141e30, #243b55);
+        min-height: 100vh;
+        color: white;
+        padding: 20px;
+    }
+
+    .container {
+        max-width: 1000px;
+        margin: auto;
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 25px;
+        font-size: 32px;
+    }
+
+    .setup {
+        background: rgba(255,255,255,0.1);
+        padding: 20px;
+        border-radius: 15px;
+        margin-bottom: 25px;
+    }
+
+    .setup-row {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+        align-items: end;
+    }
+
+    .input-group {
+        flex: 1;
+        min-width: 180px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 7px;
+        font-weight: bold;
+    }
+
+    input {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        outline: none;
+    }
+
+    button {
+        border: none;
+        padding: 12px 18px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 15px;
+        font-weight: bold;
+        transition: 0.2s;
+    }
+
+    button:hover {
+        transform: scale(1.03);
+    }
+
+    .add-btn {
+        background: #00c853;
+        color: white;
+    }
+
+    .reset-btn {
+        background: #ff1744;
+        color: white;
+    }
+
+    .game-info {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .info-box {
+        background: rgba(255,255,255,0.12);
+        padding: 15px 20px;
+        border-radius: 10px;
+        flex: 1;
+        min-width: 180px;
+        text-align: center;
+    }
+
+    .info-box span {
+        display: block;
+        font-size: 25px;
+        font-weight: bold;
+        margin-top: 5px;
+    }
+
+    .players {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 18px;
+    }
+
+    .player-card {
+        background: white;
+        color: #222;
+        border-radius: 15px;
+        padding: 20px;
+        position: relative;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    }
+
+    .player-card.eliminated {
+        opacity: 0.5;
+        background: #ddd;
+    }
+
+    .player-card.eliminated::after {
+        content: "ELIMINATED";
+        position: absolute;
+        top: 15px;
+        right: 10px;
+        background: #e53935;
+        color: white;
+        padding: 5px 8px;
+        border-radius: 5px;
+        font-size: 11px;
+        font-weight: bold;
+    }
+
+    .player-name {
+        font-size: 22px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        padding-right: 90px;
+    }
+
+    .count {
+        text-align: center;
+        font-size: 45px;
+        font-weight: bold;
+        color: #1565c0;
+        margin: 15px 0;
+    }
+
+    .progress {
+        height: 10px;
+        background: #ddd;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 15px;
+    }
+
+    .progress-bar {
+        height: 100%;
+        background: linear-gradient(90deg, #00c853, #ffeb3b, #ff1744);
+        width: 0%;
+        transition: width 0.3s;
+    }
+
+    .controls {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .controls button {
+        flex: 1;
+        min-width: 55px;
+    }
+
+    .plus {
+        background: #1565c0;
+        color: white;
+    }
+
+    .minus {
+        background: #757575;
+        color: white;
+    }
+
+    .edit {
+        background: #ff9800;
+        color: white;
+    }
+
+    .winner {
+        background: linear-gradient(135deg, #ffd700, #ff9800);
+        color: #222;
+        text-align: center;
+        padding: 30px;
+        margin: 25px 0;
+        border-radius: 18px;
+        display: none;
+        box-shadow: 0 10px 30px rgba(255,193,7,0.4);
+    }
+
+    .winner h2 {
+        font-size: 35px;
+        margin-bottom: 10px;
+    }
+
+    .winner-name {
+        font-size: 45px;
+        font-weight: bold;
+    }
+
+    .empty {
+        text-align: center;
+        padding: 40px;
+        background: rgba(255,255,255,0.1);
+        border-radius: 15px;
+    }
+
+    @media(max-width:600px) {
+        h1 {
+            font-size: 26px;
+        }
+
+        .setup-row {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .input-group {
+            width: 100%;
+        }
+
+        .winner-name {
+            font-size: 32px;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🏆 Last Player Standing</h1>
+
+    <!-- GAME SETUP -->
+    <div class="setup">
+
+        <div class="setup-row">
+
+            <div class="input-group">
+                <label>Maximum Players</label>
+                <input type="number" id="maxPlayers" value="10" min="2">
+            </div>
+
+            <div class="input-group">
+                <label>Elimination Count</label>
+                <input type="number" id="targetCount" value="10" min="1">
+            </div>
+
+            <div class="input-group">
+                <label>New Player Name</label>
+                <input type="text" id="playerName" placeholder="Enter player name">
+            </div>
+
+            <button class="add-btn" onclick="addPlayer()">
+                + Add Player
+            </button>
+
+            <button class="reset-btn" onclick="resetGame()">
+                Reset Game
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- GAME INFORMATION -->
+    <div class="game-info">
+
+        <div class="info-box">
+            Players
+            <span id="totalPlayers">0</span>
+        </div>
+
+        <div class="info-box">
+            Remaining
+            <span id="remainingPlayers">0</span>
+        </div>
+
+        <div class="info-box">
+            Target
+            <span id="targetDisplay">10</span>
+        </div>
+
+    </div>
+
+    <!-- WINNER -->
+    <div class="winner" id="winnerBox">
+        <h2>🏆 WINNER 🏆</h2>
+        <div class="winner-name" id="winnerName"></div>
+        <p>Last player remaining!</p>
+    </div>
+
+    <!-- PLAYERS -->
+    <div class="players" id="playersContainer">
+
+        <div class="empty">
+            Add players to start the game.
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+let players = [];
+let gameOver = false;
+
+
+/* =========================
+   ADD PLAYER
+========================= */
+
+function addPlayer() {
+
+    const nameInput = document.getElementById("playerName");
+    const maxPlayers = parseInt(
+        document.getElementById("maxPlayers").value
+    );
+
+    const name = nameInput.value.trim();
+
+    if (!name) {
+        alert("Please enter a player name.");
+        return;
+    }
+
+    if (players.length >= maxPlayers) {
+        alert("Maximum player limit reached.");
+        return;
+    }
+
+    if (gameOver) {
+        alert("Game is already over. Reset the game first.");
+        return;
+    }
+
+    players.push({
+        id: Date.now(),
+        name: name,
+        count: 0,
+        eliminated: false
+    });
+
+    nameInput.value = "";
+
+    renderPlayers();
+}
+
+
+/* =========================
+   CHANGE COUNT
+========================= */
+
+function changeCount(id, amount) {
+
+    if (gameOver) return;
+
+    const player = players.find(p => p.id === id);
+
+    if (!player || player.eliminated) return;
+
+    player.count += amount;
+
+    if (player.count < 0) {
+        player.count = 0;
+    }
+
+    checkElimination();
+
+    renderPlayers();
+}
+
+
+/* =========================
+   CHECK ELIMINATION
+========================= */
+
+function checkElimination() {
+
+    const target = parseInt(
+        document.getElementById("targetCount").value
+    );
+
+    for (let player of players) {
+
+        if (
+            !player.eliminated &&
+            player.count >= target
+        ) {
+
+            player.count = target;
+            player.eliminated = true;
+
+            alert(
+                "❌ " + player.name +
+                " has been eliminated!"
+            );
+        }
+    }
+
+    checkWinner();
+}
+
+
+/* =========================
+   CHECK WINNER
+========================= */
+
+function checkWinner() {
+
+    const activePlayers = players.filter(
+        p => !p.eliminated
+    );
+
+    if (activePlayers.length === 1 && players.length > 1) {
+
+        gameOver = true;
+
+        const winner = activePlayers[0];
+
+        document.getElementById("winnerBox")
+            .style.display = "block";
+
+        document.getElementById("winnerName")
+            .textContent = "🎉 " + winner.name;
+
+    }
+}
+
+
+/* =========================
+   EDIT PLAYER NAME
+========================= */
+
+function editPlayer(id) {
+
+    const player = players.find(p => p.id === id);
+
+    if (!player) return;
+
+    const newName = prompt(
+        "Enter new name:",
+        player.name
+    );
+
+    if (newName && newName.trim() !== "") {
+
+        player.name = newName.trim();
+
+        renderPlayers();
+    }
+}
+
+
+/* =========================
+   REMOVE PLAYER
+========================= */
+
+function removePlayer(id) {
+
+    if (gameOver) return;
+
+    const player = players.find(p => p.id === id);
+
+    if (!player) return;
+
+    const confirmDelete = confirm(
+        "Remove " + player.name + "?"
+    );
+
+    if (confirmDelete) {
+
+        players = players.filter(
+            p => p.id !== id
+        );
+
+        renderPlayers();
+    }
+}
+
+
+/* =========================
+   RENDER PLAYERS
+========================= */
+
+function renderPlayers() {
+
+    const container =
+        document.getElementById("playersContainer");
+
+    const target =
+        parseInt(
+            document.getElementById("targetCount").value
+        );
+
+    document.getElementById("targetDisplay")
+        .textContent = target;
+
+    document.getElementById("totalPlayers")
+        .textContent = players.length;
+
+    const remaining =
+        players.filter(p => !p.eliminated).length;
+
+    document.getElementById("remainingPlayers")
+        .textContent = remaining;
+
+
+    if (players.length === 0) {
+
+        container.innerHTML = `
+            <div class="empty">
+                Add players to start the game.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML = "";
+
+
+    players.forEach(player => {
+
+        const percentage =
+            Math.min(
+                (player.count / target) * 100,
+                100
+            );
+
+
+        const card =
+            document.createElement("div");
+
+        card.className =
+            "player-card " +
+            (player.eliminated
+                ? "eliminated"
+                : "");
+
+
+        card.innerHTML = `
+
+            <div class="player-name">
+                ${escapeHTML(player.name)}
+            </div>
+
+            <div class="count">
+                ${player.count}
+            </div>
+
+            <div class="progress">
+                <div
+                    class="progress-bar"
+                    style="width:${percentage}%">
+                </div>
+            </div>
+
+            <div class="controls">
+
+                <button
+                    class="minus"
+                    onclick="changeCount(${player.id}, -1)"
+                    ${player.eliminated ? "disabled" : ""}>
+                    −1
+                </button>
+
+                <button
+                    class="plus"
+                    onclick="changeCount(${player.id}, 1)"
+                    ${player.eliminated ? "disabled" : ""}>
+                    +1
+                </button>
+
+                <button
+                    class="plus"
+                    onclick="changeCount(${player.id}, 5)"
+                    ${player.eliminated ? "disabled" : ""}>
+                    +5
+                </button>
+
+                <button
+                    class="edit"
+                    onclick="editPlayer(${player.id})">
+                    ✏️
+                </button>
+
+                <button
+                    class="reset-btn"
+                    onclick="removePlayer(${player.id})"
+                    ${player.eliminated ? "disabled" : ""}>
+                    🗑
+                </button>
+
+            </div>
+        `;
+
+
+        container.appendChild(card);
+
+    });
+}
+
+
+/* =========================
+   RESET GAME
+========================= */
+
+function resetGame() {
+
+    const confirmation =
+        confirm(
+            "Are you sure you want to reset the game?"
+        );
+
+    if (!confirmation) return;
+
+    players = [];
+    gameOver = false;
+
+    document.getElementById("winnerBox")
+        .style.display = "none";
+
+    renderPlayers();
+}
+
+
+/* =========================
+   ESCAPE HTML
+========================= */
+
+function escapeHTML(text) {
+
+    const div = document.createElement("div");
+
+    div.textContent = text;
+
+    return div.innerHTML;
+}
+
+
+/* =========================
+   UPDATE TARGET LIVE
+========================= */
+
+document.getElementById("targetCount")
+    .addEventListener("input", function() {
+
+        document.getElementById("targetDisplay")
+            .textContent = this.value;
+
+        renderPlayers();
+
+    });
+
+
+/* INITIAL RENDER */
+
+renderPlayers();
+
+</script>
+
+</body>
+</html>
