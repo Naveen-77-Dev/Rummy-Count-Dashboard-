@@ -9,35 +9,41 @@
 <style>
 * {
     box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
 }
 
 body {
-    background: linear-gradient(135deg, #141e30, #243b55);
-    min-height: 100vh;
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
     color: white;
+    min-height: 100vh;
     padding: 15px;
 }
 
 .container {
+    width: 100%;
     max-width: 1100px;
     margin: auto;
 }
 
 h1 {
     text-align: center;
-    margin: 15px 0 25px;
+    margin: 10px 0 25px;
     font-size: 32px;
 }
 
 .panel {
-    background: rgba(255,255,255,0.1);
-    padding: 20px;
+    background: rgba(255,255,255,0.10);
     border-radius: 15px;
+    padding: 20px;
     margin-bottom: 20px;
 }
+
+h2 {
+    margin-top: 0;
+}
+
+/* SETUP */
 
 .setup-grid {
     display: grid;
@@ -47,13 +53,13 @@ h1 {
 
 label {
     display: block;
-    margin-bottom: 6px;
     font-weight: bold;
+    margin-bottom: 7px;
 }
 
 input {
     width: 100%;
-    padding: 12px;
+    padding: 13px;
     border: none;
     border-radius: 8px;
     font-size: 16px;
@@ -63,14 +69,15 @@ input {
 button {
     border: none;
     border-radius: 8px;
-    padding: 12px 16px;
+    padding: 13px 16px;
     font-size: 15px;
     font-weight: bold;
     cursor: pointer;
+    min-height: 45px;
 }
 
-button:hover {
-    opacity: 0.9;
+button:active {
+    transform: scale(0.97);
 }
 
 .add-btn {
@@ -78,27 +85,32 @@ button:hover {
     color: white;
 }
 
-.round-btn {
+.start-btn {
     background: #1976d2;
     color: white;
 }
 
-.reset-btn {
-    background: #e53935;
+.submit-btn {
+    background: #00c853;
     color: white;
+    width: 100%;
+    margin-top: 15px;
+    font-size: 17px;
 }
 
-.edit-btn {
+.undo-btn {
     background: #ff9800;
     color: white;
 }
 
-.remove-btn {
-    background: #d32f2f;
+.new-btn {
+    background: #e53935;
     color: white;
 }
 
-.info {
+/* INFO */
+
+.info-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 12px;
@@ -107,9 +119,9 @@ button:hover {
 
 .info-box {
     background: rgba(255,255,255,0.12);
-    border-radius: 12px;
     padding: 15px;
     text-align: center;
+    border-radius: 12px;
 }
 
 .info-box small {
@@ -123,15 +135,153 @@ button:hover {
     margin-top: 5px;
 }
 
-/* Winner */
+/* PLAYERS */
+
+.players {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 15px;
+}
+
+.player-card {
+    background: white;
+    color: #222;
+    border-radius: 14px;
+    padding: 18px;
+}
+
+.player-card.out {
+    background: #dddddd;
+    opacity: 0.65;
+}
+
+.player-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.player-name {
+    font-size: 20px;
+    font-weight: bold;
+    word-break: break-word;
+}
+
+.edit-name {
+    background: #ff9800;
+    color: white;
+    padding: 7px 10px;
+    min-height: auto;
+}
+
+.total-score {
+    text-align: center;
+    font-size: 42px;
+    font-weight: bold;
+    color: #1565c0;
+    margin: 15px 0;
+}
+
+.player-status {
+    text-align: center;
+    font-weight: bold;
+}
+
+.playing {
+    color: #00a152;
+}
+
+.out {
+    color: #d32f2f;
+}
+
+/* SCORE ENTRY */
+
+.score-section {
+    display: none;
+}
+
+.round-title {
+    font-size: 25px;
+    margin-bottom: 5px;
+}
+
+.round-subtitle {
+    opacity: 0.8;
+    margin-bottom: 15px;
+}
+
+.score-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+}
+
+.score-box {
+    background: rgba(255,255,255,0.10);
+    border-radius: 10px;
+    padding: 13px;
+}
+
+.score-box label {
+    margin-bottom: 8px;
+}
+
+.score-box input {
+    background: white;
+}
+
+/* TABLE */
+
+.table-wrapper {
+    overflow-x: auto;
+    background: white;
+    border-radius: 10px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    min-width: 600px;
+    color: #222;
+}
+
+th,
+td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background: #263238;
+    color: white;
+}
+
+td.player-column {
+    text-align: left;
+    font-weight: bold;
+}
+
+.total-column {
+    font-weight: bold;
+    background: #f1f1f1;
+}
+
+.out-text {
+    color: #d32f2f;
+    font-weight: bold;
+}
+
+/* WINNER */
 
 .winner {
     display: none;
+    text-align: center;
     background: linear-gradient(135deg, #ffd700, #ff9800);
     color: #222;
-    padding: 30px;
     border-radius: 18px;
-    text-align: center;
+    padding: 30px 15px;
     margin-bottom: 20px;
 }
 
@@ -145,159 +295,38 @@ button:hover {
     margin: 10px 0;
 }
 
-/* Players */
-
-.players {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 15px;
-}
-
-.player-card {
-    background: white;
-    color: #222;
-    border-radius: 14px;
-    padding: 18px;
-}
-
-.player-card.out {
-    background: #e0e0e0;
-    opacity: 0.6;
-}
-
-.player-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-}
-
-.player-name {
-    font-size: 21px;
-    font-weight: bold;
-    word-break: break-word;
-}
-
-.total {
-    text-align: center;
-    font-size: 42px;
-    font-weight: bold;
-    margin: 15px 0;
-    color: #1565c0;
-}
-
-.status {
-    text-align: center;
-    font-weight: bold;
-    margin-bottom: 12px;
-}
-
-.status.playing {
-    color: #00a152;
-}
-
-.status.out {
-    color: #d32f2f;
-}
-
-.player-actions {
-    display: flex;
-    gap: 7px;
-}
-
-.player-actions button {
-    flex: 1;
-}
-
-/* Round Table */
-
-.table-section {
-    margin-top: 25px;
-}
-
-.table-wrapper {
-    overflow-x: auto;
-    background: white;
-    border-radius: 12px;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    color: #222;
-    min-width: 600px;
-}
-
-th,
-td {
-    padding: 12px;
-    border-bottom: 1px solid #ddd;
-    text-align: center;
-}
-
-th {
-    background: #263238;
-    color: white;
-}
-
-td.name {
-    font-weight: bold;
-    text-align: left;
-}
-
-.out-cell {
-    color: #d32f2f;
-    font-weight: bold;
-}
-
-.total-cell {
-    font-weight: bold;
-    background: #f5f5f5;
-}
-
-/* Score Entry */
-
-.score-entry {
-    display: none;
-}
-
-.score-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 12px;
-    margin-top: 15px;
-}
-
-.score-input-box {
-    background: rgba(255,255,255,0.08);
-    padding: 12px;
-    border-radius: 10px;
-}
-
-.score-input-box span {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 7px;
-}
-
-.score-input-box input {
-    background: white;
-}
+/* MESSAGE */
 
 .message {
-    margin-top: 12px;
-    padding: 10px;
-    border-radius: 8px;
-    background: rgba(255,255,255,0.1);
     display: none;
+    background: rgba(255,255,255,0.12);
+    padding: 12px;
+    border-radius: 8px;
+    margin-top: 12px;
 }
+
+/* EMPTY */
 
 .empty {
     text-align: center;
     padding: 30px;
-    background: rgba(255,255,255,0.1);
-    border-radius: 12px;
+    opacity: 0.8;
 }
+
+/* BOTTOM BUTTONS */
+
+.bottom-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin: 25px 0;
+}
+
+.bottom-buttons button {
+    min-width: 150px;
+}
+
+/* MOBILE */
 
 @media (max-width: 600px) {
 
@@ -309,16 +338,24 @@ td.name {
         font-size: 26px;
     }
 
-    .info {
+    .panel {
+        padding: 15px;
+    }
+
+    .info-grid {
         grid-template-columns: 1fr;
+    }
+
+    .bottom-buttons {
+        flex-direction: column;
+    }
+
+    .bottom-buttons button {
+        width: 100%;
     }
 
     .winner-name {
         font-size: 32px;
-    }
-
-    .player-actions {
-        flex-wrap: wrap;
     }
 }
 </style>
@@ -331,14 +368,19 @@ td.name {
 <h1>🃏 Rummy Score Tracker</h1>
 
 
-<!-- GAME SETUP -->
+<!-- ==============================
+     SETUP
+================================ -->
 
 <div class="panel">
+
+    <h2>Game Setup</h2>
 
     <div class="setup-grid">
 
         <div>
             <label>Maximum Players</label>
+
             <input
                 type="number"
                 id="maxPlayers"
@@ -347,106 +389,163 @@ td.name {
                 max="50">
         </div>
 
+
         <div>
             <label>Elimination Limit</label>
+
             <input
                 type="number"
-                id="limit"
+                id="scoreLimit"
                 value="101"
                 min="1">
         </div>
 
+
         <div>
             <label>Player Name</label>
+
             <input
                 type="text"
                 id="playerName"
                 placeholder="Enter player name">
         </div>
 
+
         <div style="display:flex;align-items:end;">
+
             <button
+                type="button"
                 class="add-btn"
-                style="width:100%;"
-                id="addPlayerBtn">
+                id="addPlayerBtn"
+                style="width:100%;">
                 + Add Player
             </button>
+
         </div>
 
+    </div>
+
+
+    <button
+        type="button"
+        class="start-btn"
+        id="startGameBtn"
+        style="width:100%;margin-top:15px;">
+
+        ▶ START GAME
+
+    </button>
+
+
+    <div
+        class="message"
+        id="setupMessage">
     </div>
 
 </div>
 
 
-<!-- GAME INFORMATION -->
+<!-- ==============================
+     GAME INFORMATION
+================================ -->
 
-<div class="info">
+<div class="info-grid">
 
     <div class="info-box">
         <small>Total Players</small>
-        <strong id="playerCount">0</strong>
+        <strong id="totalPlayers">0</strong>
     </div>
 
     <div class="info-box">
         <small>Players Remaining</small>
-        <strong id="remainingCount">0</strong>
+        <strong id="remainingPlayers">0</strong>
     </div>
 
     <div class="info-box">
-        <small>Round</small>
-        <strong id="roundNumber">0</strong>
+        <small>Current Round</small>
+        <strong id="currentRoundNumber">0</strong>
     </div>
 
 </div>
 
 
-<!-- WINNER -->
+<!-- ==============================
+     WINNER
+================================ -->
 
-<div class="winner" id="winnerBox">
+<div
+    class="winner"
+    id="winnerBox">
 
     <h2>🏆 WINNER 🏆</h2>
 
-    <div class="winner-name" id="winnerName"></div>
+    <div
+        class="winner-name"
+        id="winnerName">
+    </div>
 
-    <p>Last player remaining!</p>
-
-</div>
-
-
-<!-- SCORE ENTRY -->
-
-<div class="panel score-entry" id="scoreEntry">
-
-    <h2>Enter Round <span id="currentRound"></span> Scores</h2>
-
-    <p style="margin-top:8px;opacity:0.8;">
-        Enter the score each player received in this round.
+    <p>
+        Congratulations! Last player remaining.
     </p>
 
-    <div class="score-grid" id="scoreGrid"></div>
+</div>
+
+
+<!-- ==============================
+     SCORE ENTRY
+================================ -->
+
+<div
+    class="panel score-section"
+    id="scoreSection">
+
+    <div class="round-title">
+        📝 Round <span id="roundDisplay">1</span>
+    </div>
+
+    <div class="round-subtitle">
+        Enter the score received by each player in this round.
+    </div>
+
+
+    <div
+        class="score-grid"
+        id="scoreGrid">
+    </div>
+
 
     <button
-        class="round-btn"
-        id="submitRoundBtn"
-        style="margin-top:15px;">
-        ✓ Submit Round
+        type="button"
+        class="submit-btn"
+        id="submitRoundBtn">
+
+        ✓ SUBMIT ROUND
+
     </button>
 
-    <div class="message" id="message"></div>
+
+    <div
+        class="message"
+        id="roundMessage">
+    </div>
 
 </div>
 
 
-<!-- PLAYERS -->
+<!-- ==============================
+     PLAYERS
+================================ -->
 
 <div class="panel">
 
-    <h2 style="margin-bottom:15px;">Players</h2>
+    <h2>👥 Players</h2>
 
-    <div class="players" id="playersContainer">
+    <div
+        class="players"
+        id="playersContainer">
 
         <div class="empty">
-            Add players to begin the game.
+            Add players and press START GAME.
         </div>
 
     </div>
@@ -454,26 +553,29 @@ td.name {
 </div>
 
 
-<!-- ROUND TABLE -->
+<!-- ==============================
+     SCORE TABLE
+================================ -->
 
-<div class="panel table-section">
+<div class="panel">
 
-    <h2 style="margin-bottom:15px;">
-        📊 Round-by-Round Scores
-    </h2>
+    <h2>📊 Round-by-Round Scores</h2>
 
     <div class="table-wrapper">
 
         <table>
 
-            <thead id="tableHead">
+            <thead id="scoreTableHead">
+
                 <tr>
                     <th>Player</th>
                     <th>Total</th>
+                    <th>Status</th>
                 </tr>
+
             </thead>
 
-            <tbody id="tableBody">
+            <tbody id="scoreTableBody">
             </tbody>
 
         </table>
@@ -483,14 +585,29 @@ td.name {
 </div>
 
 
-<!-- RESET -->
+<!-- ==============================
+     BUTTONS
+================================ -->
 
-<div style="text-align:center;margin:25px 0;">
+<div class="bottom-buttons">
 
     <button
-        class="reset-btn"
-        id="resetBtn">
+        type="button"
+        class="undo-btn"
+        id="undoBtn">
+
+        ↩ Undo Last Round
+
+    </button>
+
+
+    <button
+        type="button"
+        class="new-btn"
+        id="newGameBtn">
+
         🔄 New Game
+
     </button>
 
 </div>
@@ -500,90 +617,134 @@ td.name {
 
 <script>
 
+/*
+====================================================
+RUMMY SCORE TRACKER
+====================================================
+*/
+
+
 let players = [];
 let rounds = [];
+let gameStarted = false;
 let gameOver = false;
 
 
-/* ==========================
-   ELEMENTS
-========================== */
+/* ==============================
+   GET ELEMENTS
+================================ */
 
-const maxPlayersInput =
+const maxPlayers =
     document.getElementById("maxPlayers");
 
-const limitInput =
-    document.getElementById("limit");
+const scoreLimit =
+    document.getElementById("scoreLimit");
 
-const playerNameInput =
+const playerName =
     document.getElementById("playerName");
 
 const playersContainer =
     document.getElementById("playersContainer");
 
-const scoreEntry =
-    document.getElementById("scoreEntry");
+const scoreSection =
+    document.getElementById("scoreSection");
 
 const scoreGrid =
     document.getElementById("scoreGrid");
 
-const message =
-    document.getElementById("message");
+const winnerBox =
+    document.getElementById("winnerBox");
+
+const winnerName =
+    document.getElementById("winnerName");
+
+const roundMessage =
+    document.getElementById("roundMessage");
+
+const setupMessage =
+    document.getElementById("setupMessage");
 
 
-/* ==========================
+/* ==============================
    ADD PLAYER
-========================== */
+================================ */
 
 document
 .getElementById("addPlayerBtn")
 .addEventListener("click", addPlayer);
 
 
-playerNameInput
-.addEventListener("keydown", function(event) {
+playerName.addEventListener(
+    "keydown",
+    function(event) {
 
-    if (event.key === "Enter") {
-        addPlayer();
+        if (event.key === "Enter") {
+            addPlayer();
+        }
+
     }
-
-});
+);
 
 
 function addPlayer() {
 
-    if (gameOver) {
-        alert("Game is already finished. Start a new game.");
+    if (gameStarted) {
+
+        showSetupMessage(
+            "The game has already started. Start a new game to change the players."
+        );
+
         return;
     }
+
 
     const name =
-        playerNameInput.value.trim();
+        playerName.value.trim();
 
-    const maxPlayers =
-        parseInt(maxPlayersInput.value);
+
+    const max =
+        Number(maxPlayers.value);
+
 
     if (!name) {
-        alert("Please enter a player name.");
+
+        showSetupMessage(
+            "Please enter a player name."
+        );
+
         return;
     }
+
 
     if (
-        !Number.isFinite(maxPlayers) ||
-        maxPlayers < 2
+        !Number.isInteger(max) ||
+        max < 2 ||
+        max > 50
     ) {
-        alert("Please enter a valid player limit.");
+
+        showSetupMessage(
+            "Maximum players must be between 2 and 50."
+        );
+
         return;
     }
 
-    if (players.length >= maxPlayers) {
-        alert("Maximum player limit reached.");
+
+    if (players.length >= max) {
+
+        showSetupMessage(
+            "Maximum player limit reached."
+        );
+
         return;
     }
+
 
     players.push({
 
-        id: Date.now() + Math.random(),
+        id:
+            Date.now().toString() +
+            Math.random().toString(16),
 
         name: name,
 
@@ -593,188 +754,209 @@ function addPlayer() {
 
     });
 
-    playerNameInput.value = "";
 
-    render();
+    playerName.value = "";
 
+    showSetupMessage(
+        name + " added successfully."
+    );
+
+
+    renderAll();
 }
 
 
-/* ==========================
-   EDIT PLAYER
-========================== */
+/* ==============================
+   START GAME
+================================ */
 
-function editPlayer(id) {
-
-    const player =
-        players.find(p => p.id === id);
-
-    if (!player) return;
-
-    const newName =
-        prompt(
-            "Enter new player name:",
-            player.name
-        );
-
-    if (
-        newName &&
-        newName.trim()
-    ) {
-
-        player.name =
-            newName.trim();
-
-        render();
-
-    }
-
-}
+document
+.getElementById("startGameBtn")
+.addEventListener("click", startGame);
 
 
-/* ==========================
-   REMOVE PLAYER
-========================== */
+function startGame() {
 
-function removePlayer(id) {
+    if (gameStarted) {
 
-    if (rounds.length > 0) {
-
-        alert(
-            "Players cannot be removed after scoring has started."
+        showSetupMessage(
+            "Game is already running."
         );
 
         return;
     }
 
-    const player =
-        players.find(p => p.id === id);
-
-    if (!player) return;
-
-    if (
-        confirm(
-            "Remove " + player.name + "?"
-        )
-    ) {
-
-        players =
-            players.filter(
-                p => p.id !== id
-            );
-
-        render();
-
-    }
-
-}
-
-
-/* ==========================
-   START ROUND
-========================== */
-
-function prepareRound() {
-
-    if (gameOver) return;
 
     if (players.length < 2) {
 
-        alert(
-            "Add at least 2 players."
+        showSetupMessage(
+            "Add at least 2 players before starting."
         );
 
         return;
-
     }
+
+
+    const limit =
+        Number(scoreLimit.value);
+
+
+    if (
+        !Number.isInteger(limit) ||
+        limit < 1
+    ) {
+
+        showSetupMessage(
+            "Please enter a valid elimination limit."
+        );
+
+        return;
+    }
+
+
+    gameStarted = true;
+
+    gameOver = false;
+
+
+    maxPlayers.disabled = true;
+    scoreLimit.disabled = true;
+    playerName.disabled = true;
+
+    document.getElementById(
+        "addPlayerBtn"
+    ).disabled = true;
+
+    document.getElementById(
+        "startGameBtn"
+    ).disabled = true;
+
+
+    prepareRound();
+
+    renderAll();
+
+}
+
+
+/* ==============================
+   PREPARE ROUND
+================================ */
+
+function prepareRound() {
+
+    if (!gameStarted || gameOver) {
+        return;
+    }
+
 
     const activePlayers =
         players.filter(
-            p => !p.eliminated
+            player => !player.eliminated
         );
+
 
     if (activePlayers.length <= 1) {
 
         checkWinner();
 
         return;
-
     }
 
-    const round =
+
+    const roundNumber =
         rounds.length + 1;
 
+
     document.getElementById(
-        "currentRound"
-    ).textContent = round;
+        "roundDisplay"
+    ).textContent = roundNumber;
+
 
     scoreGrid.innerHTML = "";
 
-    activePlayers.forEach(player => {
 
-        const box =
-            document.createElement("div");
+    activePlayers.forEach(
+        player => {
 
-        box.className =
-            "score-input-box";
+            const box =
+                document.createElement("div");
 
-        box.innerHTML = `
+            box.className =
+                "score-box";
 
-            <span>
-                ${escapeHTML(player.name)}
-            </span>
 
-            <input
-                type="number"
-                min="0"
-                step="1"
-                value="0"
-                data-player-id="${player.id}"
-                placeholder="Score">
+            const label =
+                document.createElement("label");
 
-        `;
+            label.textContent =
+                player.name;
 
-        scoreGrid.appendChild(box);
 
-    });
+            const input =
+                document.createElement("input");
 
-    scoreEntry.style.display = "block";
+            input.type = "number";
 
-    scoreEntry.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-    });
+            input.min = "0";
+
+            input.step = "1";
+
+            input.value = "0";
+
+            input.dataset.playerId =
+                player.id;
+
+
+            box.appendChild(label);
+
+            box.appendChild(input);
+
+            scoreGrid.appendChild(box);
+
+        }
+    );
+
+
+    scoreSection.style.display =
+        "block";
 
 }
 
 
-/* ==========================
+/* ==============================
    SUBMIT ROUND
-========================== */
+================================ */
 
 document
 .getElementById("submitRoundBtn")
-.addEventListener("click", submitRound);
+.addEventListener(
+    "click",
+    submitRound
+);
 
 
 function submitRound() {
 
-    if (gameOver) return;
+    if (!gameStarted || gameOver) {
+        return;
+    }
+
 
     const limit =
-        parseInt(limitInput.value);
+        Number(scoreLimit.value);
+
 
     if (
-        !Number.isFinite(limit) ||
+        !Number.isInteger(limit) ||
         limit < 1
     ) {
 
-        alert(
-            "Please enter a valid elimination limit."
+        showRoundMessage(
+            "Invalid elimination limit."
         );
 
         return;
-
     }
 
 
@@ -786,125 +968,195 @@ function submitRound() {
 
     const roundScores = {};
 
-    let valid = true;
+    let invalid = false;
 
 
-    inputs.forEach(input => {
+    inputs.forEach(
+        input => {
 
-        const value =
-            Number(input.value);
+            let value =
+                Number(input.value);
 
-        if (
-            !Number.isFinite(value) ||
-            value < 0
-        ) {
 
-            valid = false;
+            if (
+                !Number.isFinite(value) ||
+                value < 0
+            ) {
+
+                invalid = true;
+
+                return;
+            }
+
+
+            /*
+            Rummy scores are whole numbers.
+            */
+
+            value =
+                Math.floor(value);
+
+
+            roundScores[
+                input.dataset.playerId
+            ] = value;
 
         }
-
-        roundScores[
-            input.dataset.playerId
-        ] = value;
-
-    });
+    );
 
 
-    if (!valid) {
+    if (invalid) {
 
-        alert(
-            "Please enter valid scores."
+        showRoundMessage(
+            "Please enter valid scores for all players."
         );
 
         return;
-
     }
 
 
-    /* Add scores to totals */
-
-    players.forEach(player => {
-
-        if (player.eliminated) {
-            return;
-        }
-
-        const score =
-            roundScores[player.id];
-
-        player.total += score;
-
-    });
-
-
-    /* Save round */
+    /*
+    SAVE ROUND
+    */
 
     rounds.push({
-        number: rounds.length + 1,
-        scores: roundScores
+
+        number:
+            rounds.length + 1,
+
+        scores:
+            roundScores
+
     });
 
 
-    /* Eliminate players */
+    /*
+    ADD SCORES TO TOTAL
+    */
 
-    let eliminatedThisRound = [];
+    players.forEach(
+        player => {
+
+            if (player.eliminated) {
+                return;
+            }
 
 
-    players.forEach(player => {
+            const score =
+                roundScores[player.id];
 
-        if (
-            !player.eliminated &&
-            player.total >= limit
-        ) {
 
-            player.eliminated = true;
+            if (
+                Number.isFinite(score)
+            ) {
 
-            eliminatedThisRound.push(
-                player.name
-            );
+                player.total += score;
+
+            }
 
         }
-
-    });
-
-
-    scoreEntry.style.display = "none";
+    );
 
 
-    if (eliminatedThisRound.length > 0) {
+    /*
+    ELIMINATE PLAYERS
+    */
 
-        showMessage(
-            "❌ Eliminated this round: " +
-            eliminatedThisRound.join(", ")
+    const eliminatedPlayers = [];
+
+
+    players.forEach(
+        player => {
+
+            if (
+                !player.eliminated &&
+                player.total >= limit
+            ) {
+
+                player.eliminated = true;
+
+                eliminatedPlayers.push(
+                    player.name
+                );
+
+            }
+
+        }
+    );
+
+
+    /*
+    HIDE CURRENT SCORE ENTRY
+    */
+
+    scoreSection.style.display =
+        "none";
+
+
+    /*
+    SHOW ROUND RESULT
+    */
+
+    if (eliminatedPlayers.length > 0) {
+
+        showRoundMessage(
+            "❌ Eliminated: " +
+            eliminatedPlayers.join(", ")
         );
 
     } else {
 
-        showMessage(
-            "Round " +
+        showRoundMessage(
+            "✅ Round " +
             rounds.length +
-            " recorded successfully."
+            " saved successfully."
         );
 
     }
 
 
-    render();
+    renderAll();
+
+
+    /*
+    CHECK WHETHER GAME IS OVER
+    */
 
     checkWinner();
+
+
+    /*
+    IF GAME CONTINUES,
+    PREPARE NEXT ROUND
+    */
+
+    if (!gameOver) {
+
+        setTimeout(
+            function() {
+
+                prepareRound();
+
+                renderAll();
+
+            },
+            300
+        );
+
+    }
 
 }
 
 
-/* ==========================
+/* ==============================
    CHECK WINNER
-========================== */
+================================ */
 
 function checkWinner() {
 
     const activePlayers =
         players.filter(
-            p => !p.eliminated
+            player => !player.eliminated
         );
 
 
@@ -915,25 +1167,31 @@ function checkWinner() {
 
         gameOver = true;
 
+
         const winner =
             activePlayers[0];
 
-        document.getElementById(
-            "winnerBox"
-        ).style.display = "block";
 
-        document.getElementById(
-            "winnerName"
-        ).textContent =
+        winnerBox.style.display =
+            "block";
+
+
+        winnerName.textContent =
             "🎉 " + winner.name;
 
-        scoreEntry.style.display =
+
+        scoreSection.style.display =
             "none";
 
+
         document.getElementById(
-            "winnerBox"
-        ).scrollIntoView({
-            behavior: "smooth"
+            "submitRoundBtn"
+        ).disabled = true;
+
+
+        winnerBox.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
         });
 
     }
@@ -941,351 +1199,175 @@ function checkWinner() {
 }
 
 
-/* ==========================
-   RENDER EVERYTHING
-========================== */
+/* ==============================
+   EDIT NAME
+================================ */
 
-function render() {
+function editPlayer(id) {
 
-    renderPlayers();
-
-    renderTable();
-
-    updateInfo();
-
-}
-
-
-/* ==========================
-   RENDER PLAYERS
-========================== */
-
-function renderPlayers() {
-
-    if (players.length === 0) {
-
-        playersContainer.innerHTML = `
-            <div class="empty">
-                Add players to begin the game.
-            </div>
-        `;
-
-        return;
-
-    }
-
-
-    playersContainer.innerHTML = "";
-
-
-    players.forEach(player => {
-
-        const card =
-            document.createElement("div");
-
-        card.className =
-            "player-card " +
-            (player.eliminated
-                ? "out"
-                : "");
-
-
-        card.innerHTML = `
-
-            <div class="player-header">
-
-                <div class="player-name">
-                    ${escapeHTML(player.name)}
-                </div>
-
-            </div>
-
-            <div class="total">
-                ${player.total}
-            </div>
-
-            <div class="status ${
-                player.eliminated
-                    ? "out"
-                    : "playing"
-            }">
-
-                ${
-                    player.eliminated
-                        ? "❌ OUT"
-                        : "🟢 PLAYING"
-                }
-
-            </div>
-
-            <div class="player-actions">
-
-                <button
-                    class="edit-btn"
-                    data-action="edit">
-                    ✏️ Edit
-                </button>
-
-                ${
-                    rounds.length === 0
-                    ?
-                    `
-                    <button
-                        class="remove-btn"
-                        data-action="remove">
-                        🗑 Remove
-                    </button>
-                    `
-                    :
-                    ""
-                }
-
-            </div>
-
-        `;
-
-
-        card
-        .querySelector(
-            '[data-action="edit"]'
-        )
-        .addEventListener(
-            "click",
-            () => editPlayer(player.id)
+    const player =
+        players.find(
+            p => p.id === id
         );
 
 
-        const removeButton =
-            card.querySelector(
-                '[data-action="remove"]'
-            );
+    if (!player) {
+        return;
+    }
 
 
-        if (removeButton) {
+    const newName =
+        prompt(
+            "Enter new name:",
+            player.name
+        );
 
-            removeButton.addEventListener(
-                "click",
-                () => removePlayer(player.id)
-            );
+
+    if (
+        newName &&
+        newName.trim()
+    ) {
+
+        player.name =
+            newName.trim();
+
+        renderAll();
+
+        /*
+        If game is active,
+        rebuild current score fields
+        so the new name appears.
+        */
+
+        if (
+            gameStarted &&
+            !gameOver
+        ) {
+
+            prepareRound();
 
         }
 
-
-        playersContainer.appendChild(card);
-
-    });
+    }
 
 }
 
 
-/* ==========================
-   ROUND TABLE
-========================== */
+/* ==============================
+   UNDO LAST ROUND
+================================ */
 
-function renderTable() {
+document
+.getElementById("undoBtn")
+.addEventListener(
+    "click",
+    undoLastRound
+);
 
-    const head =
-        document.getElementById(
-            "tableHead"
+
+function undoLastRound() {
+
+    if (!gameStarted) {
+
+        alert(
+            "Start the game first."
         );
-
-    const body =
-        document.getElementById(
-            "tableBody"
-        );
-
-
-    if (players.length === 0) {
-
-        head.innerHTML = `
-            <tr>
-                <th>Player</th>
-                <th>Total</th>
-            </tr>
-        `;
-
-        body.innerHTML = "";
 
         return;
-
     }
 
 
-    /* Header */
+    if (rounds.length === 0) {
 
-    let headerHTML =
-        "<tr><th>Player</th>";
+        alert(
+            "There is no round to undo."
+        );
 
+        return;
+    }
 
-    rounds.forEach(round => {
-
-        headerHTML +=
-            `<th>Round ${round.number}</th>`;
-
-    });
-
-
-    headerHTML +=
-        "<th>Total</th><th>Status</th></tr>";
-
-
-    head.innerHTML =
-        headerHTML;
-
-
-    /* Rows */
-
-    let bodyHTML = "";
-
-
-    players.forEach(player => {
-
-        bodyHTML += `
-            <tr>
-
-                <td class="name">
-                    ${escapeHTML(player.name)}
-                </td>
-        `;
-
-
-        rounds.forEach(round => {
-
-            const score =
-                round.scores[player.id];
-
-
-            if (
-                score === undefined
-            ) {
-
-                bodyHTML +=
-                    "<td>—</td>";
-
-            } else {
-
-                bodyHTML +=
-                    `<td>${score}</td>`;
-
-            }
-
-        });
-
-
-        bodyHTML += `
-
-                <td class="total-cell">
-                    ${player.total}
-                </td>
-
-                <td class="${
-                    player.eliminated
-                        ? "out-cell"
-                        : ""
-                }">
-
-                    ${
-                        player.eliminated
-                            ? "OUT"
-                            : "Playing"
-                    }
-
-                </td>
-
-            </tr>
-        `;
-
-    });
-
-
-    body.innerHTML =
-        bodyHTML;
-
-}
-
-
-/* ==========================
-   UPDATE INFORMATION
-========================== */
-
-function updateInfo() {
-
-    document.getElementById(
-        "playerCount"
-    ).textContent =
-        players.length;
-
-
-    document.getElementById(
-        "remainingCount"
-    ).textContent =
-        players.filter(
-            p => !p.eliminated
-        ).length;
-
-
-    document.getElementById(
-        "roundNumber"
-    ).textContent =
-        rounds.length;
-
-}
-
-
-/* ==========================
-   MESSAGE
-========================== */
-
-function showMessage(text) {
-
-    message.textContent = text;
-
-    message.style.display =
-        "block";
-
-    setTimeout(() => {
-
-        message.style.display =
-            "none";
-
-    }, 4000);
-
-}
-
-
-/* ==========================
-   RESET GAME
-========================== */
-
-document
-.getElementById("resetBtn")
-.addEventListener("click", resetGame);
-
-
-function resetGame() {
 
     if (
         !confirm(
-            "Start a new game? All scores will be deleted."
+            "Undo the last round?"
         )
     ) {
 
         return;
-
     }
 
 
-    players = [];
+    const lastRound =
+        rounds.pop();
 
-    rounds = [];
+
+    /*
+    Recalculate EVERYTHING
+    from the remaining rounds.
+    */
+
+    players.forEach(
+        player => {
+
+            player.total = 0;
+
+            player.eliminated = false;
+
+        }
+    );
+
+
+    const limit =
+        Number(scoreLimit.value);
+
+
+    rounds.forEach(
+        round => {
+
+            players.forEach(
+                player => {
+
+                    const score =
+                        round.scores[player.id];
+
+
+                    if (
+                        Number.isFinite(score)
+                    ) {
+
+                        player.total += score;
+
+                    }
+
+                }
+            );
+
+
+            players.forEach(
+                player => {
+
+                    if (
+                        !player.eliminated &&
+                        player.total >= limit
+                    ) {
+
+                        player.eliminated = true;
+
+                    }
+
+                }
+            );
+
+        }
+    );
+
 
     gameOver = false;
 
 
+    winnerBox.style.display =
+        "none";
+
+
     document.getElementById(
-        "winnerBox"
-    ).style.display = "none";
-
-
-    scoreEntry.style.display =
-   
+        "submitRoundBt
