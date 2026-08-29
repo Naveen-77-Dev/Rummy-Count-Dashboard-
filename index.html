@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Rummy Score Tracker</title>
 
 <style>
@@ -13,15 +12,13 @@
 
 body {
     margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-    color: white;
-    min-height: 100vh;
     padding: 15px;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #141e30, #243b55);
+    color: white;
 }
 
 .container {
-    width: 100%;
     max-width: 1100px;
     margin: auto;
 }
@@ -32,15 +29,15 @@ h1 {
     font-size: 32px;
 }
 
-.panel {
-    background: rgba(255,255,255,0.10);
-    border-radius: 15px;
-    padding: 20px;
-    margin-bottom: 20px;
-}
-
 h2 {
     margin-top: 0;
+}
+
+.panel {
+    background: rgba(255,255,255,0.10);
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 20px;
 }
 
 /* SETUP */
@@ -76,8 +73,9 @@ button {
     min-height: 45px;
 }
 
-button:active {
-    transform: scale(0.97);
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
 .add-btn {
@@ -119,9 +117,9 @@ button:active {
 
 .info-box {
     background: rgba(255,255,255,0.12);
+    border-radius: 12px;
     padding: 15px;
     text-align: center;
-    border-radius: 12px;
 }
 
 .info-box small {
@@ -151,13 +149,14 @@ button:active {
 }
 
 .player-card.out {
-    background: #dddddd;
+    background: #ddd;
     opacity: 0.65;
 }
 
-.player-top {
+.player-header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     gap: 10px;
 }
 
@@ -167,11 +166,11 @@ button:active {
     word-break: break-word;
 }
 
-.edit-name {
+.edit-btn {
     background: #ff9800;
     color: white;
-    padding: 7px 10px;
-    min-height: auto;
+    min-height: 38px;
+    padding: 8px 10px;
 }
 
 .total-score {
@@ -182,7 +181,7 @@ button:active {
     margin: 15px 0;
 }
 
-.player-status {
+.status {
     text-align: center;
     font-weight: bold;
 }
@@ -191,7 +190,7 @@ button:active {
     color: #00a152;
 }
 
-.out {
+.out-status {
     color: #d32f2f;
 }
 
@@ -203,12 +202,13 @@ button:active {
 
 .round-title {
     font-size: 25px;
-    margin-bottom: 5px;
+    font-weight: bold;
 }
 
 .round-subtitle {
-    opacity: 0.8;
+    margin-top: 5px;
     margin-bottom: 15px;
+    opacity: 0.8;
 }
 
 .score-grid {
@@ -219,16 +219,12 @@ button:active {
 
 .score-box {
     background: rgba(255,255,255,0.10);
-    border-radius: 10px;
     padding: 13px;
+    border-radius: 10px;
 }
 
 .score-box label {
-    margin-bottom: 8px;
-}
-
-.score-box input {
-    background: white;
+    color: white;
 }
 
 /* TABLE */
@@ -240,10 +236,10 @@ button:active {
 }
 
 table {
-    border-collapse: collapse;
     width: 100%;
-    min-width: 600px;
+    border-collapse: collapse;
     color: #222;
+    min-width: 600px;
 }
 
 th,
@@ -299,31 +295,23 @@ td.player-column {
 
 .message {
     display: none;
-    background: rgba(255,255,255,0.12);
+    margin-top: 12px;
     padding: 12px;
     border-radius: 8px;
-    margin-top: 12px;
+    background: rgba(255,255,255,0.15);
 }
 
-/* EMPTY */
-
-.empty {
-    text-align: center;
-    padding: 30px;
-    opacity: 0.8;
-}
-
-/* BOTTOM BUTTONS */
+/* BOTTOM */
 
 .bottom-buttons {
     display: flex;
-    gap: 10px;
     justify-content: center;
+    gap: 10px;
     margin: 25px 0;
 }
 
 .bottom-buttons button {
-    min-width: 150px;
+    min-width: 160px;
 }
 
 /* MOBILE */
@@ -361,325 +349,339 @@ td.player-column {
 </style>
 </head>
 
+
 <body>
 
 <div class="container">
 
-<h1>🃏 Rummy Score Tracker</h1>
+    <h1>🃏 Rummy Score Tracker</h1>
 
 
-<!-- ==============================
-     SETUP
-================================ -->
+    <!-- GAME SETUP -->
 
-<div class="panel">
+    <div class="panel">
 
-    <h2>Game Setup</h2>
+        <h2>Game Setup</h2>
 
-    <div class="setup-grid">
+        <div class="setup-grid">
 
-        <div>
-            <label>Maximum Players</label>
+            <div>
+                <label>Maximum Players</label>
 
-            <input
-                type="number"
-                id="maxPlayers"
-                value="6"
-                min="2"
-                max="50">
+                <input
+                    type="number"
+                    id="maxPlayers"
+                    value="6"
+                    min="2"
+                    max="50">
+            </div>
+
+
+            <div>
+                <label>Elimination Limit</label>
+
+                <input
+                    type="number"
+                    id="scoreLimit"
+                    value="101"
+                    min="1">
+            </div>
+
+
+            <div>
+                <label>Player Name</label>
+
+                <input
+                    type="text"
+                    id="playerName"
+                    placeholder="Enter player name">
+            </div>
+
+
+            <div style="display:flex;align-items:end;">
+
+                <button
+                    type="button"
+                    id="addPlayerBtn"
+                    class="add-btn"
+                    style="width:100%;">
+
+                    + ADD PLAYER
+
+                </button>
+
+            </div>
+
         </div>
 
 
-        <div>
-            <label>Elimination Limit</label>
+        <button
+            type="button"
+            id="startGameBtn"
+            class="start-btn"
+            style="width:100%;margin-top:15px;">
 
-            <input
-                type="number"
-                id="scoreLimit"
-                value="101"
-                min="1">
-        </div>
+            ▶ START GAME
 
-
-        <div>
-            <label>Player Name</label>
-
-            <input
-                type="text"
-                id="playerName"
-                placeholder="Enter player name">
-        </div>
+        </button>
 
 
-        <div style="display:flex;align-items:end;">
-
-            <button
-                type="button"
-                class="add-btn"
-                id="addPlayerBtn"
-                style="width:100%;">
-                + Add Player
-            </button>
-
-        </div>
-
-    </div>
-
-
-    <button
-        type="button"
-        class="start-btn"
-        id="startGameBtn"
-        style="width:100%;margin-top:15px;">
-
-        ▶ START GAME
-
-    </button>
-
-
-    <div
-        class="message"
-        id="setupMessage">
-    </div>
-
-</div>
-
-
-<!-- ==============================
-     GAME INFORMATION
-================================ -->
-
-<div class="info-grid">
-
-    <div class="info-box">
-        <small>Total Players</small>
-        <strong id="totalPlayers">0</strong>
-    </div>
-
-    <div class="info-box">
-        <small>Players Remaining</small>
-        <strong id="remainingPlayers">0</strong>
-    </div>
-
-    <div class="info-box">
-        <small>Current Round</small>
-        <strong id="currentRoundNumber">0</strong>
-    </div>
-
-</div>
-
-
-<!-- ==============================
-     WINNER
-================================ -->
-
-<div
-    class="winner"
-    id="winnerBox">
-
-    <h2>🏆 WINNER 🏆</h2>
-
-    <div
-        class="winner-name"
-        id="winnerName">
-    </div>
-
-    <p>
-        Congratulations! Last player remaining.
-    </p>
-
-</div>
-
-
-<!-- ==============================
-     SCORE ENTRY
-================================ -->
-
-<div
-    class="panel score-section"
-    id="scoreSection">
-
-    <div class="round-title">
-        📝 Round <span id="roundDisplay">1</span>
-    </div>
-
-    <div class="round-subtitle">
-        Enter the score received by each player in this round.
-    </div>
-
-
-    <div
-        class="score-grid"
-        id="scoreGrid">
-    </div>
-
-
-    <button
-        type="button"
-        class="submit-btn"
-        id="submitRoundBtn">
-
-        ✓ SUBMIT ROUND
-
-    </button>
-
-
-    <div
-        class="message"
-        id="roundMessage">
-    </div>
-
-</div>
-
-
-<!-- ==============================
-     PLAYERS
-================================ -->
-
-<div class="panel">
-
-    <h2>👥 Players</h2>
-
-    <div
-        class="players"
-        id="playersContainer">
-
-        <div class="empty">
-            Add players and press START GAME.
+        <div
+            id="setupMessage"
+            class="message">
         </div>
 
     </div>
 
-</div>
 
+    <!-- INFORMATION -->
 
-<!-- ==============================
-     SCORE TABLE
-================================ -->
+    <div class="info-grid">
 
-<div class="panel">
+        <div class="info-box">
+            <small>Total Players</small>
+            <strong id="totalPlayers">0</strong>
+        </div>
 
-    <h2>📊 Round-by-Round Scores</h2>
+        <div class="info-box">
+            <small>Players Remaining</small>
+            <strong id="remainingPlayers">0</strong>
+        </div>
 
-    <div class="table-wrapper">
-
-        <table>
-
-            <thead id="scoreTableHead">
-
-                <tr>
-                    <th>Player</th>
-                    <th>Total</th>
-                    <th>Status</th>
-                </tr>
-
-            </thead>
-
-            <tbody id="scoreTableBody">
-            </tbody>
-
-        </table>
+        <div class="info-box">
+            <small>Rounds Played</small>
+            <strong id="roundNumber">0</strong>
+        </div>
 
     </div>
 
-</div>
+
+    <!-- WINNER -->
+
+    <div
+        id="winnerBox"
+        class="winner">
+
+        <h2>🏆 WINNER 🏆</h2>
+
+        <div
+            id="winnerName"
+            class="winner-name">
+        </div>
+
+        <p>Last player remaining!</p>
+
+    </div>
 
 
-<!-- ==============================
-     BUTTONS
-================================ -->
+    <!-- SCORE ENTRY -->
 
-<div class="bottom-buttons">
+    <div
+        id="scoreSection"
+        class="panel score-section">
 
-    <button
-        type="button"
-        class="undo-btn"
-        id="undoBtn">
+        <div class="round-title">
 
-        ↩ Undo Last Round
+            📝 Round
+            <span id="roundDisplay">1</span>
 
-    </button>
+        </div>
+
+        <div class="round-subtitle">
+
+            Enter the score received by each player
+            in this round.
+
+        </div>
 
 
-    <button
-        type="button"
-        class="new-btn"
-        id="newGameBtn">
+        <div
+            id="scoreGrid"
+            class="score-grid">
+        </div>
 
-        🔄 New Game
 
-    </button>
+        <button
+            type="button"
+            id="submitRoundBtn"
+            class="submit-btn">
 
-</div>
+            ✓ SUBMIT ROUND
+
+        </button>
+
+
+        <div
+            id="roundMessage"
+            class="message">
+        </div>
+
+    </div>
+
+
+    <!-- PLAYERS -->
+
+    <div class="panel">
+
+        <h2>👥 Players</h2>
+
+        <div
+            id="playersContainer"
+            class="players">
+
+            <div class="empty">
+                Add players above.
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- SCORE TABLE -->
+
+    <div class="panel">
+
+        <h2>📊 Round-by-Round Scores</h2>
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead id="scoreTableHead">
+
+                    <tr>
+                        <th>Player</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="scoreTableBody">
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- BUTTONS -->
+
+    <div class="bottom-buttons">
+
+        <button
+            type="button"
+            id="undoBtn"
+            class="undo-btn">
+
+            ↩ UNDO LAST ROUND
+
+        </button>
+
+
+        <button
+            type="button"
+            id="newGameBtn"
+            class="new-btn">
+
+            🔄 NEW GAME
+
+        </button>
+
+    </div>
 
 </div>
 
 
 <script>
 
-/*
-====================================================
-RUMMY SCORE TRACKER
-====================================================
-*/
+/* ==================================================
+   RUMMY SCORE TRACKER
+   ================================================== */
+
+var players = [];
+var rounds = [];
+var gameStarted = false;
+var gameOver = false;
 
 
-let players = [];
-let rounds = [];
-let gameStarted = false;
-let gameOver = false;
-
-
-/* ==============================
+/* ==================================================
    GET ELEMENTS
-================================ */
+   ================================================== */
 
-const maxPlayers =
+var maxPlayersInput =
     document.getElementById("maxPlayers");
 
-const scoreLimit =
+var scoreLimitInput =
     document.getElementById("scoreLimit");
 
-const playerName =
+var playerNameInput =
     document.getElementById("playerName");
 
-const playersContainer =
+var addPlayerButton =
+    document.getElementById("addPlayerBtn");
+
+var startGameButton =
+    document.getElementById("startGameBtn");
+
+var submitRoundButton =
+    document.getElementById("submitRoundBtn");
+
+var undoButton =
+    document.getElementById("undoBtn");
+
+var newGameButton =
+    document.getElementById("newGameBtn");
+
+var playersContainer =
     document.getElementById("playersContainer");
 
-const scoreSection =
+var scoreSection =
     document.getElementById("scoreSection");
 
-const scoreGrid =
+var scoreGrid =
     document.getElementById("scoreGrid");
 
-const winnerBox =
+var winnerBox =
     document.getElementById("winnerBox");
 
-const winnerName =
+var winnerName =
     document.getElementById("winnerName");
 
-const roundMessage =
-    document.getElementById("roundMessage");
-
-const setupMessage =
+var setupMessage =
     document.getElementById("setupMessage");
 
+var roundMessage =
+    document.getElementById("roundMessage");
 
-/* ==============================
+
+/* ==================================================
    ADD PLAYER
-================================ */
+   ================================================== */
 
-document
-.getElementById("addPlayerBtn")
-.addEventListener("click", addPlayer);
+addPlayerButton.addEventListener(
+    "click",
+    function () {
+
+        addPlayer();
+
+    }
+);
 
 
-playerName.addEventListener(
+playerNameInput.addEventListener(
     "keydown",
-    function(event) {
+    function (event) {
 
         if (event.key === "Enter") {
+
+            event.preventDefault();
+
             addPlayer();
+
         }
 
     }
@@ -691,33 +693,35 @@ function addPlayer() {
     if (gameStarted) {
 
         showSetupMessage(
-            "The game has already started. Start a new game to change the players."
+            "Game already started. Press NEW GAME to start again."
         );
 
         return;
     }
 
 
-    const name =
-        playerName.value.trim();
+    var name =
+        playerNameInput.value.trim();
 
 
-    const max =
-        Number(maxPlayers.value);
+    var max =
+        parseInt(maxPlayersInput.value, 10);
 
 
-    if (!name) {
+    if (name === "") {
 
         showSetupMessage(
             "Please enter a player name."
         );
+
+        playerNameInput.focus();
 
         return;
     }
 
 
     if (
-        !Number.isInteger(max) ||
+        isNaN(max) ||
         max < 2 ||
         max > 50
     ) {
@@ -733,18 +737,45 @@ function addPlayer() {
     if (players.length >= max) {
 
         showSetupMessage(
-            "Maximum player limit reached."
+            "You have reached the maximum number of players."
         );
 
         return;
     }
 
 
-    players.push({
+    /*
+     Prevent duplicate names
+    */
+
+    for (
+        var i = 0;
+        i < players.length;
+        i++
+    ) {
+
+        if (
+            players[i].name.toLowerCase() ===
+            name.toLowerCase()
+        ) {
+
+            showSetupMessage(
+                "A player with this name already exists."
+            );
+
+            return;
+        }
+
+    }
+
+
+    var player = {
 
         id:
-            Date.now().toString() +
-            Math.random().toString(16),
+            "player_" +
+            Date.now() +
+            "_" +
+            Math.floor(Math.random() * 100000),
 
         name: name,
 
@@ -752,10 +783,14 @@ function addPlayer() {
 
         eliminated: false
 
-    });
+    };
 
 
-    playerName.value = "";
+    players.push(player);
+
+
+    playerNameInput.value = "";
+
 
     showSetupMessage(
         name + " added successfully."
@@ -763,46 +798,42 @@ function addPlayer() {
 
 
     renderAll();
+
 }
 
 
-/* ==============================
+/* ==================================================
    START GAME
-================================ */
+   ================================================== */
 
-document
-.getElementById("startGameBtn")
-.addEventListener("click", startGame);
+startGameButton.addEventListener(
+    "click",
+    function () {
+
+        startGame();
+
+    }
+);
 
 
 function startGame() {
 
-    if (gameStarted) {
-
-        showSetupMessage(
-            "Game is already running."
-        );
-
-        return;
-    }
-
-
     if (players.length < 2) {
 
         showSetupMessage(
-            "Add at least 2 players before starting."
+            "Please add at least 2 players."
         );
 
         return;
     }
 
 
-    const limit =
-        Number(scoreLimit.value);
+    var limit =
+        parseInt(scoreLimitInput.value, 10);
 
 
     if (
-        !Number.isInteger(limit) ||
+        isNaN(limit) ||
         limit < 1
     ) {
 
@@ -819,17 +850,24 @@ function startGame() {
     gameOver = false;
 
 
-    maxPlayers.disabled = true;
-    scoreLimit.disabled = true;
-    playerName.disabled = true;
+    /*
+    Lock setup
+    */
 
-    document.getElementById(
-        "addPlayerBtn"
-    ).disabled = true;
+    maxPlayersInput.disabled = true;
 
-    document.getElementById(
-        "startGameBtn"
-    ).disabled = true;
+    scoreLimitInput.disabled = true;
+
+    playerNameInput.disabled = true;
+
+    addPlayerButton.disabled = true;
+
+    startGameButton.disabled = true;
+
+
+    showSetupMessage(
+        "Game started! Enter Round 1 scores below."
+    );
 
 
     prepareRound();
@@ -839,9 +877,9 @@ function startGame() {
 }
 
 
-/* ==============================
+/* ==================================================
    PREPARE ROUND
-================================ */
+   ================================================== */
 
 function prepareRound() {
 
@@ -850,9 +888,13 @@ function prepareRound() {
     }
 
 
-    const activePlayers =
+    var activePlayers =
         players.filter(
-            player => !player.eliminated
+            function (player) {
+
+                return !player.eliminated;
+
+            }
         );
 
 
@@ -864,75 +906,102 @@ function prepareRound() {
     }
 
 
-    const roundNumber =
+    var nextRound =
         rounds.length + 1;
 
 
     document.getElementById(
         "roundDisplay"
-    ).textContent = roundNumber;
+    ).textContent = nextRound;
 
 
     scoreGrid.innerHTML = "";
 
 
-    activePlayers.forEach(
-        player => {
+    /*
+    Create score box for every active player
+    */
 
-            const box =
-                document.createElement("div");
+    for (
+        var i = 0;
+        i < activePlayers.length;
+        i++
+    ) {
 
-            box.className =
-                "score-box";
-
-
-            const label =
-                document.createElement("label");
-
-            label.textContent =
-                player.name;
+        var player =
+            activePlayers[i];
 
 
-            const input =
-                document.createElement("input");
+        var box =
+            document.createElement("div");
 
-            input.type = "number";
-
-            input.min = "0";
-
-            input.step = "1";
-
-            input.value = "0";
-
-            input.dataset.playerId =
-                player.id;
+        box.className =
+            "score-box";
 
 
-            box.appendChild(label);
+        var label =
+            document.createElement("label");
 
-            box.appendChild(input);
+        label.textContent =
+            player.name;
 
-            scoreGrid.appendChild(box);
 
-        }
-    );
+        var input =
+            document.createElement("input");
+
+        input.type = "number";
+
+        input.min = "0";
+
+        input.step = "1";
+
+        input.value = "0";
+
+        input.setAttribute(
+            "data-player-id",
+            player.id
+        );
+
+
+        box.appendChild(label);
+
+        box.appendChild(input);
+
+        scoreGrid.appendChild(box);
+
+    }
 
 
     scoreSection.style.display =
         "block";
 
+
+    /*
+    Focus first score input
+    */
+
+    var firstInput =
+        scoreGrid.querySelector("input");
+
+
+    if (firstInput) {
+        firstInput.focus();
+    }
+
 }
 
 
-/* ==============================
+/* ==================================================
    SUBMIT ROUND
-================================ */
+   ================================================== */
 
-document
-.getElementById("submitRoundBtn")
-.addEventListener(
+submitRoundButton.addEventListener(
     "click",
-    submitRound
+    function () {
+
+        submitRound();
+
+    }
 );
 
 
@@ -943,12 +1012,12 @@ function submitRound() {
     }
 
 
-    const limit =
-        Number(scoreLimit.value);
+    var limit =
+        parseInt(scoreLimitInput.value, 10);
 
 
     if (
-        !Number.isInteger(limit) ||
+        isNaN(limit) ||
         limit < 1
     ) {
 
@@ -960,55 +1029,61 @@ function submitRound() {
     }
 
 
-    const inputs =
+    var inputs =
         scoreGrid.querySelectorAll(
             "input[data-player-id]"
         );
 
 
-    const roundScores = {};
+    var roundScores = {};
 
-    let invalid = false;
-
-
-    inputs.forEach(
-        input => {
-
-            let value =
-                Number(input.value);
+    var invalid = false;
 
 
-            if (
-                !Number.isFinite(value) ||
-                value < 0
-            ) {
+    /*
+    Read every score
+    */
 
-                invalid = true;
+    for (
+        var i = 0;
+        i < inputs.length;
+        i++
+    ) {
 
-                return;
-            }
-
-
-            /*
-            Rummy scores are whole numbers.
-            */
-
-            value =
-                Math.floor(value);
+        var input =
+            inputs[i];
 
 
-            roundScores[
-                input.dataset.playerId
-            ] = value;
+        var value =
+            Number(input.value);
 
+
+        if (
+            !Number.isFinite(value) ||
+            value < 0
+        ) {
+
+            invalid = true;
+
+            break;
         }
-    );
+
+
+        value =
+            Math.floor(value);
+
+
+        roundScores[
+            input.getAttribute("data-player-id")
+        ] = value;
+
+    }
 
 
     if (invalid) {
 
         showRoundMessage(
-            "Please enter valid scores for all players."
+            "Please enter a valid score for every player."
         );
 
         return;
@@ -1016,7 +1091,7 @@ function submitRound() {
 
 
     /*
-    SAVE ROUND
+    Save round
     */
 
     rounds.push({
@@ -1031,62 +1106,74 @@ function submitRound() {
 
 
     /*
-    ADD SCORES TO TOTAL
+    Add scores to player totals
     */
 
-    players.forEach(
-        player => {
+    for (
+        var j = 0;
+        j < players.length;
+        j++
+    ) {
 
-            if (player.eliminated) {
-                return;
-            }
-
-
-            const score =
-                roundScores[player.id];
+        var player =
+            players[j];
 
 
-            if (
-                Number.isFinite(score)
-            ) {
+        if (player.eliminated) {
+            continue;
+        }
 
-                player.total += score;
 
-            }
+        var score =
+            roundScores[player.id];
+
+
+        if (
+            typeof score === "number"
+        ) {
+
+            player.total += score;
 
         }
-    );
+
+    }
 
 
     /*
-    ELIMINATE PLAYERS
+    Eliminate players
     */
 
-    const eliminatedPlayers = [];
+    var eliminatedNames = [];
 
 
-    players.forEach(
-        player => {
+    for (
+        var k = 0;
+        k < players.length;
+        k++
+    ) {
 
-            if (
-                !player.eliminated &&
-                player.total >= limit
-            ) {
+        var currentPlayer =
+            players[k];
 
-                player.eliminated = true;
 
-                eliminatedPlayers.push(
-                    player.name
-                );
+        if (
+            !currentPlayer.eliminated &&
+            currentPlayer.total >= limit
+        ) {
 
-            }
+            currentPlayer.eliminated = true;
+
+            eliminatedNames.push(
+                currentPlayer.name
+            );
 
         }
-    );
+
+    }
 
 
     /*
-    HIDE CURRENT SCORE ENTRY
+    Hide score section temporarily
     */
 
     scoreSection.style.display =
@@ -1094,14 +1181,14 @@ function submitRound() {
 
 
     /*
-    SHOW ROUND RESULT
+    Show result
     */
 
-    if (eliminatedPlayers.length > 0) {
+    if (eliminatedNames.length > 0) {
 
         showRoundMessage(
-            "❌ Eliminated: " +
-            eliminatedPlayers.join(", ")
+            "❌ OUT: " +
+            eliminatedNames.join(", ")
         );
 
     } else {
@@ -1109,7 +1196,7 @@ function submitRound() {
         showRoundMessage(
             "✅ Round " +
             rounds.length +
-            " saved successfully."
+            " saved."
         );
 
     }
@@ -1119,44 +1206,38 @@ function submitRound() {
 
 
     /*
-    CHECK WHETHER GAME IS OVER
+    Check winner
     */
 
     checkWinner();
 
 
     /*
-    IF GAME CONTINUES,
-    PREPARE NEXT ROUND
+    Continue to next round
     */
 
     if (!gameOver) {
 
-        setTimeout(
-            function() {
-
-                prepareRound();
-
-                renderAll();
-
-            },
-            300
-        );
+        prepareRound();
 
     }
 
 }
 
 
-/* ==============================
+/* ==================================================
    CHECK WINNER
-================================ */
+   ================================================== */
 
 function checkWinner() {
 
-    const activePlayers =
+    var activePlayers =
         players.filter(
-            player => !player.eliminated
+            function (player) {
+
+                return !player.eliminated;
+
+            }
         );
 
 
@@ -1168,25 +1249,20 @@ function checkWinner() {
         gameOver = true;
 
 
-        const winner =
-            activePlayers[0];
+        winnerName.textContent =
+            "🎉 " + activePlayers[0].name;
 
 
         winnerBox.style.display =
             "block";
 
 
-        winnerName.textContent =
-            "🎉 " + winner.name;
-
-
         scoreSection.style.display =
             "none";
 
 
-        document.getElementById(
-            "submitRoundBtn"
-        ).disabled = true;
+        submitRoundButton.disabled =
+            true;
 
 
         winnerBox.scrollIntoView({
@@ -1199,15 +1275,19 @@ function checkWinner() {
 }
 
 
-/* ==============================
-   EDIT NAME
-================================ */
+/* ==================================================
+   EDIT PLAYER
+   ================================================== */
 
 function editPlayer(id) {
 
-    const player =
+    var player =
         players.find(
-            p => p.id === id
+            function (p) {
+
+                return p.id === id;
+
+            }
         );
 
 
@@ -1216,7 +1296,7 @@ function editPlayer(id) {
     }
 
 
-    const newName =
+    var newName =
         prompt(
             "Enter new name:",
             player.name
@@ -1224,150 +1304,67 @@ function editPlayer(id) {
 
 
     if (
-        newName &&
-        newName.trim()
+        newName === null ||
+        newName.trim() === ""
     ) {
 
-        player.name =
-            newName.trim();
+        return;
+    }
 
-        renderAll();
 
-        /*
-        If game is active,
-        rebuild current score fields
-        so the new name appears.
-        */
+    newName =
+        newName.trim();
+
+
+    /*
+    Check duplicate names
+    */
+
+    for (
+        var i = 0;
+        i < players.length;
+        i++
+    ) {
 
         if (
-            gameStarted &&
-            !gameOver
+            players[i].id !== id &&
+            players[i].name.toLowerCase() ===
+            newName.toLowerCase()
         ) {
 
-            prepareRound();
+            alert(
+                "Another player already has this name."
+            );
 
+            return;
         }
+
+    }
+
+
+    player.name =
+        newName;
+
+
+    renderAll();
+
+
+    /*
+    Recreate current round fields
+    */
+
+    if (
+        gameStarted &&
+        !gameOver
+    ) {
+
+        prepareRound();
 
     }
 
 }
 
 
-/* ==============================
+/* ==================================================
    UNDO LAST ROUND
-================================ */
-
-document
-.getElementById("undoBtn")
-.addEventListener(
-    "click",
-    undoLastRound
-);
-
-
-function undoLastRound() {
-
-    if (!gameStarted) {
-
-        alert(
-            "Start the game first."
-        );
-
-        return;
-    }
-
-
-    if (rounds.length === 0) {
-
-        alert(
-            "There is no round to undo."
-        );
-
-        return;
-    }
-
-
-    if (
-        !confirm(
-            "Undo the last round?"
-        )
-    ) {
-
-        return;
-    }
-
-
-    const lastRound =
-        rounds.pop();
-
-
-    /*
-    Recalculate EVERYTHING
-    from the remaining rounds.
-    */
-
-    players.forEach(
-        player => {
-
-            player.total = 0;
-
-            player.eliminated = false;
-
-        }
-    );
-
-
-    const limit =
-        Number(scoreLimit.value);
-
-
-    rounds.forEach(
-        round => {
-
-            players.forEach(
-                player => {
-
-                    const score =
-                        round.scores[player.id];
-
-
-                    if (
-                        Number.isFinite(score)
-                    ) {
-
-                        player.total += score;
-
-                    }
-
-                }
-            );
-
-
-            players.forEach(
-                player => {
-
-                    if (
-                        !player.eliminated &&
-                        player.total >= limit
-                    ) {
-
-                        player.eliminated = true;
-
-                    }
-
-                }
-            );
-
-        }
-    );
-
-
-    gameOver = false;
-
-
-    winnerBox.style.display =
-        "none";
-
-
-    document.getElementById(
-        "submitRoundBt
+   ===========
